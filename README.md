@@ -32,6 +32,26 @@ Optional Test additions:
 
 - moving the module code into a main.js would feel even more like a vite project.
 
+## Installation
+
+The npm package name is `vue3-esm-browser-vueengine`.
+
+First add the basic dependencies:
+```html
+<script type="importmap" id="vueBasics">
+  {
+    "imports": {
+      "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js",
+      "vue-router": "https://unpkg.com/vue-router@4/dist/vue-router.esm-browser.prod.js",
+      "vue3-sfc-loader": "https://unpkg.com/vue3-sfc-loader@0.9.5/dist/vue3-sfc-loader.esm.js",
+      "less": "https://cdn.jsdelivr.net/npm/less@4/dist/less.min.js/+esm"
+    }
+  }
+</script>
+```
+
+To include the main script at the end of your html, either download it, or add it remotely with `<script type="module" id="vueEngine" src="https://unpkg.com/vue3-esm-browser-vueengine"></script>`
+
 ## Getting Started
 
 Folder structure (static server!)
@@ -53,8 +73,8 @@ You need to setup your HTML:
 1. add `<style>xmp {display: none; }</style>` to the `<head>`
 2. body needs an element with id app, like `<body> <div id="app">loading ...</app>`
 3. below that:
-   1. configure `vueConfig.routes` in a `<script type="module" async>` block
-   2. include below that the 3 script elements: `#vueBasics` `#vueEngine`
+   1. configure `vueConfig.routes` in a `<script type="module" async>` block (see below)
+   2. include below the 2 script elements: `#vueBasics`  `#vueEngine` (see Installation)
 
 Now just edit your app.vue and add pages (views) and components. For each page added, adjust your `vueConfig.routes`.
 
@@ -133,10 +153,11 @@ Example:
 
 additionally to the above, you can:
 
-1. configure `vueConfig.components` and `vueConfig.imports`
-2. add an importmap `#vueImportsUserDefined`
-3. hook into `vueConfig.onReady`
-4. watch `loadingStates` for loading progress
+1. configure `vueConfig.routes`
+2. configure `vueConfig.components` and `vueConfig.imports`
+3. add an importmap `#vueImportsUserDefined`
+4. hook into `vueConfig.onReady`
+5. watch `loadingStates` for loading progress
 
 Any of this is optional.
 
