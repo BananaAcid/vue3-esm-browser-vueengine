@@ -1,6 +1,6 @@
 {
   "name": "vue3-esm-browser-vueengine",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "lib/vueEngine.mjs",
   "module": "lib/vueEngine.mjs",
   "author": "Nabil Redmann <repo@bananaacid.de",
