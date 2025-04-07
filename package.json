@@ -1,10 +1,13 @@
 {
   "name": "vue3-esm-browser-vueengine",
+  "version": "1.0.0",
+  "main": "lib/vueEngine.mjs",
+  "module": "lib/vueEngine.mjs",
   "author": "Nabil Redmann <repo@bananaacid.de",
   "license": "MIT",
-  "homepage": "https://stackblitz.com/edit/bananaacid-vue3-esm-browser-only",
+  "homepage": "https://stackblitz.com/~/github.com/BananaAcid/vue3-esm-browser-vueengine",
   "scripts": {
-    "start": "rm /home/projects/bananaacid-vue3-esm-browser-only/example/lib ; ln -s /home/projects/bananaacid-vue3-esm-browser-only/lib /home/projects/bananaacid-vue3-esm-browser-only/example/lib ; npx --yes http-server ./example"
+    "start": "rm /home/BananaAcid/vue3-esm-browser-vueengine/example/lib ; ln -s /home/BananaAcid/vue3-esm-browser-vueengine/lib /home/BananaAcid/vue3-esm-browser-vueengine/example/lib ; npx --yes http-server ./example"
   },
   "exports": {
     "/lib": {
@@ -13,5 +16,9 @@
   },
   "unpkg": "lib/vueEngine.mjs",
   "jsdelivr": "lib/vueEngine.mjs",
-  "keywords": ["vue", "esm", "es6", "browser"]
+  "keywords": ["vue", "esm", "es6", "browser"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BananaAcid/vue3-esm-browser-vueengine.git"
+  }
 }
