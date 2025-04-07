@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue SPA</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      const routesConfig = [
+        { path: '/', page: 'Home.vue' },
+        { path: '/about', page: 'About.vue' },
+        { path: '/contact', page: 'Contact.vue' },
+        { path: '/examplepug', page: 'ExamplePug.vue' },
+        { path: '/example2', page: 'Example2.vue' },
+      ];
+    </script>
+
+    <template type="page" id="Example2.vue">
+      <template>
+        <!-- in this template block, you MUST use kebab-case names for components and self-closing tags will not work -->
+        <p>EXAMPLE 2</p>
+      </template>
+      <style lang="less" scoped>
+        p {
+          color: green;
+        }
+      </style>
+    </template>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js",
+          "vue-router": "https://unpkg.com/vue-router@4/dist/vue-router.esm-browser.prod.js",
+          "vue3-sfc-loader": "https://unpkg.com/vue3-sfc-loader@0.9.5/dist/vue3-sfc-loader.esm.js",
+          "less": "https://cdn.jsdelivr.net/npm/less@4.2.2/dist/less.min.js/+esm"
+        }
+      }
+    </script>
+    <script src="https://pugjs.org/js/pug.js"></script>
+
+    <script type="module">
+      import * as vue from 'vue';
+      import { createApp } from 'vue';
+      import { createRouter, createWebHashHistory } from 'vue-router';
+      import { loadModule } from 'vue3-sfc-loader';
+      import less from 'less';
+      const pug = require('pug');
+
+      const options = {
+        moduleCache: {
+          vue,
+          pug,
+          less,
+        },
+        async getFile(url) {
+          // look for a <template type="page" id="Example2.vue">...</template> first
+          const script = document.querySelector(
+            `template[type="page"][id="${url.replace('./pages/', '')}"]`
+          );
+          if (script) return script.innerHTML;
+
+          // fetch the file
+          const res = await fetch(url);
+          if (!res.ok)
+            throw Object.assign(new Error(res.statusText + ' ' + url), { res });
+          return await res.text();
+        },
+        addStyle(textContent) {
+          const style = Object.assign(document.createElement('style'), {
+            textContent,
+          });
+          const ref = document.head.getElementsByTagName('style')[0] || null;
+          document.head.insertBefore(style, ref);
+        },
+      };
+
+      const router = createRouter({
+        history: createWebHashHistory(),
+        routes: routesConfig.map((route) => ({
+          path: route.path,
+          component: () => loadModule('./pages/' + route.page, options),
+        })),
+      });
+
+      // Create and mount the app
+      const app = createApp({
+        components: {
+          App: await loadModule('./app.vue', options),
+        },
+        template: '<App />',
+      });
+
+      /**
+       * for global components use:
+       *  `app.component('name', loadModule('./app.vue', options));`
+       */
+
+      app.use(router);
+      await router.isReady();
+      app.mount('#app');
+    </script>
+  </body>
+</html>

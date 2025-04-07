@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue SPA</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f0f0f0;
+      }
+      xmp {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <progress max="11"></progress>
+      <br />
+      <status></status>
+    </div>
+
+    <script type="module" async>
+      // centralized place to add this stuff.
+      // The goal is to not require modification to the main script block.
+
+      globalThis.vueConfig = {};
+
+      // set up routes
+      globalThis.vueConfig.routes = [
+        { path: '/', page: 'Home.vue' },
+        { path: '/about', page: 'About.vue' },
+        { path: '/contact', page: 'Contact.vue' },
+        { path: '/examplepug', page: 'ExamplePug.vue' },
+        { path: '/example2', page: 'Example2.vue', meta: {} },
+      ];
+
+      // load components to be globally available (they do not need to be imported, if not listed here, you need to import them as you normally would)
+      // embedded components (in index.html) are loaded automatically to be globally available without adding them here
+      globalThis.vueConfig.components = [
+        { name: 'TestMe', file: '/components/TestMe.vue' },
+        { name: 'PrimeTest', file: '/components/PrimeTest.vue' },
+      ];
+
+      // import user required dependencies, and vue plugins
+      // prettier-ignore
+      globalThis.vueConfig.imports = [
+        {
+          type: 'style',
+          content: '@import url("https://unpkg.com/vuetify@3.8.0/dist/vuetify.min.css"); ',
+        },
+        {
+          type: 'plugin',
+          content: async ({ app }) =>
+            app.use( (await import('https://unpkg.com/vuetify@3.8.0/dist/vuetify.esm.js')).createVuetify() ),
+        },
+        {
+          type: 'script',
+          content: 'https://code.jquery.com/jquery-3.7.1.min.js', // installs to window.jQuery
+        },
+        /*
+        {
+          type: 'plugin',
+          content: async ({ app }) =>
+            app.use( await import('framework7') ),
+        },
+        */
+      ];
+
+      // if onReady is defined, the app will not mount by itself but you get a callback to trigger it yourself
+      globalThis.vueConfig.onReady = (mountCallback) => {
+        jQuery('status').delay(1000).slideUp(1000);
+        setTimeout(mountCallback, 2000);
+      };
+
+      // just my custom progress watcher
+      globalThis.loadingStates = new Proxy([], {
+        set: (target, prop, changes) => {
+          target[prop] = changes;
+          const el = document.querySelector('status');
+          if (prop !== 'length' && el) el.innerHTML += '<br>' + changes;
+          if (prop == 'length' && el)
+            document.querySelector('progress').value = changes;
+          return true;
+        },
+      });
+      globalThis.loadingStates.push(
+        'Preparing (waiting for stackblitz, then loading dependencies)'
+      );
+    </script>
+
+    <script type="importmap" id="vueImportsUserDefined">
+      {
+        "imports": {
+          "@vueuse/shared": "https://cdn.jsdelivr.net/npm/@vueuse/shared@13/index.min.mjs",
+          "@vueuse/core": "https://cdn.jsdelivr.net/npm/@vueuse/core@13/index.min.mjs"
+        }
+      }
+    </script>
+
+    <xmp type="page" id="Example2.vue">
+      <template>
+        <div class="page">
+          <h1>Component Examples</h1>
+          <p>This is an embedded component (tag is in index.html) and using less.</p>
+          <br />
+          <p>TestWord global component (embedded): <TestWord /> </p>
+          <br />
+          <p>TestWord imported component: <test-word2 /> </p>
+          <br />
+          <p>MousePos component (with VueUse composable): <MousePos /> </p>
+          <br />
+          <p>Vuetify components test: <VBtn>button</VBtn></p>
+          <br />
+          <p>TestMe component test: <TestMe /></p>
+          <br />
+          <p>PrimeTest component test: <PrimeTest /> -- BROKEN: importing test.less file</p>
+        </div>
+      </template>
+      <script setup>
+        import TestWord2 from '/components/TestWord.vue';
+      </script>
+      <style lang="less" scoped>
+        @color: green;
+        .page {
+          background-color: white;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          max-width: 800px;
+          margin: 0 auto;
+        h1 {
+          color: #2c3e50;
+          margin-bottom: 1rem;
+        }
+        p {
+          color: @color;
+          line-height: 1.6;
+        }
+      }
+      </style>
+    </xmp>
+
+    <xmp type="component" id="TestWord.vue">
+      <template>
+        <p>WORD 2</p>
+      </template>
+    </xmp>
+
+    <xmp type="component" id="vueuseTest/MousePos.vue">
+      <template>
+        <p>Mouse pos: {{x}}, {{y}}
+      </template>
+      <script setup>
+        // both imports work, both require @vueuse/shared to be available as imported module
+        //import { useMouse } from 'https://cdn.jsdelivr.net/npm/@vueuse/core@13/index.min.mjs';
+        import { useMouse } from '@vueuse/core';
+        const { x, y, sourceType } = useMouse();
+      </script>
+    </xmp>
+
+    <!-- vueEngine stuff below, no need to modify ------------------------------------------------------->
+
+    <script type="importmap" id="vueBasics">
+      {
+        "imports": {
+          "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js",
+          "vue-router": "https://unpkg.com/vue-router@4/dist/vue-router.esm-browser.prod.js",
+          "vue3-sfc-loader": "https://unpkg.com/vue3-sfc-loader@0.9.5/dist/vue3-sfc-loader.esm.js",
+          "less": "https://cdn.jsdelivr.net/npm/less@4/dist/less.min.js/+esm"
+        }
+      }
+    </script>
+
+    <script type="module" id="vueEngine" src="/lib/vueEngine.mjs"></script>
+  </body>
+</html>

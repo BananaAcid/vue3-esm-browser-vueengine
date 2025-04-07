@@ -1,0 +1,17 @@
+{
+  "name": "vue3-esm-browser-vueengine",
+  "author": "Nabil Redmann <repo@bananaacid.de",
+  "license": "MIT",
+  "homepage": "https://stackblitz.com/edit/bananaacid-vue3-esm-browser-only",
+  "scripts": {
+    "start": "rm /home/projects/bananaacid-vue3-esm-browser-only/example/lib ; ln -s /home/projects/bananaacid-vue3-esm-browser-only/lib /home/projects/bananaacid-vue3-esm-browser-only/example/lib ; npx --yes http-server ./example"
+  },
+  "exports": {
+    "/lib": {
+      "import": "./lib/vueEngine.mjs"
+    }
+  },
+  "unpkg": "lib/vueEngine.mjs",
+  "jsdelivr": "lib/vueEngine.mjs",
+  "keywords": ["vue", "esm", "es6", "browser"]
+}
