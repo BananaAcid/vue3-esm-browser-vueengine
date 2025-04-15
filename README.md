@@ -32,6 +32,12 @@ Optional Test additions:
 
 - moving the module code into a main.js would feel even more like a vite project.
 
+## AI agent, prompt usage / Vibe Coding
+
+The [project-ruleset.md](./project-ruleset.md) gives you a prompt to be used with an AI to create a project for vueEngine from scratch. Just copy and paste it before any prompt of you first.
+
+It might also help to clarify with parts of this documentation.
+
 ## Installation
 
 The npm package name is `vue3-esm-browser-vueengine`.
@@ -315,7 +321,3 @@ These are optional things I want to include, to have a single drop in solution.
 
 - [E] (ERROR) add a styles folder and test importing in style-less-tags (with .css and .less), and .css imports in script-tags
   - https://github.com/FranckFreiburger/vue3-sfc-loader/issues/219
-- [x] test: can routesConfig moved to a script-module-tag and add to globalThis just by exporting? How could the main script access the config?
-- [x] importsConfig (index.html), to make imports easier
-- [x] move main module code to ./lib/vueEngine.mjs
-  - [x] make sure, everything is consolidated into the mjs. To be imported and handle everything like an engine (like we used to with jquery and angular and vue).
