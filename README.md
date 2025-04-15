@@ -4,6 +4,7 @@
 
 ... all natively in the browser.
 
+- all in **one file** is possible
 - uses **VUE 3** (unmodified, vanilla)
 - **.vue files** support (using https://github.com/FranckFreiburger/vue3-sfc-loader)
 - **no server** logic (static)
