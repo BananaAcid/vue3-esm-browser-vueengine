@@ -16,7 +16,7 @@
   },
   "unpkg": "lib/vueEngine.mjs",
   "jsdelivr": "lib/vueEngine.mjs",
-  "keywords": ["vue", "esm", "es6", "browser"],
+  "keywords": ["vue", "vue3", "esm", "es6", "browser", "sfc", "importmaps", "all-in-one"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BananaAcid/vue3-esm-browser-vueengine.git"
