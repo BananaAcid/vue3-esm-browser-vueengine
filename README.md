@@ -59,6 +59,121 @@ First add the basic dependencies:
 
 To include the main script at the end of your html, either download it, or add it remotely with `<script type="module" id="vueEngine" src="https://unpkg.com/vue3-esm-browser-vueengine"></script>`
 
+## Quick start template
+
+You can use this as a quick start.
+
+A more detailed [preloader is below](#loadingstates).
+
+<details>
+<summary>Single page app `code` here:</summary>
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <style id="basicPageStyle">
+        html {
+          place-items: center;
+          align-content: center;
+          height: 100vh;
+        }
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 20px;
+          background-color: #f0f0f0;
+        }
+        xmp {
+          display: none;
+        }
+      </style>
+    </head>
+    <body>
+      <div id="app">
+        <progress>loading ...</progress>
+      </div>
+  
+  
+      <xmp type="app" id="App.vue">
+        <template>
+          <VApp>
+            <RouterView />
+          </VApp>
+        </template>
+      </xmp>
+  
+  
+      <xmp type="page" id="home.vue">
+        <template>
+          <div class="page">
+            <h1>App.vue only, all in one</h1>
+          </div>
+        </template>
+        <style lang="less" scoped>
+          .page {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+          }
+        </style>
+      </xmp>
+  
+  
+  
+      <script type="importmap" id="vueAdditions">
+        {
+          "imports": {
+            "@vueuse/shared": "https://cdn.jsdelivr.net/npm/@vueuse/shared@13/index.min.mjs",
+            "@vueuse/core": "https://cdn.jsdelivr.net/npm/@vueuse/core@13/index.min.mjs",
+            "marked": "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js"
+          }
+        }
+      </script>
+  
+      <script type="module" async id="vueConfig">
+        globalThis.vueConfig = globalThis.vueConfig ?? {};
+  
+        globalThis.vueConfig.routes = [
+          { path: '/', page: 'home.vue' },
+            // ...
+          ];
+        
+        globalThis.vueConfig.imports = [
+          {
+            type: 'style',
+            content: '@import url("https://unpkg.com/vuetify@3.8.0/dist/vuetify.min.css"); ',
+          },
+          {
+            type: 'plugin',
+            content: async ({ app }) =>
+              app.use( (await import('https://unpkg.com/vuetify@3.8.0/dist/vuetify.esm.js')).createVuetify() ),
+          },
+        ];
+      </script>
+  
+  
+      <!-- vueEngine stuff below, no need to modify ------------------------------------------------------->
+  
+      <script type="importmap" id="vueBasics">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js",
+            "vue-router": "https://unpkg.com/vue-router@4/dist/vue-router.esm-browser.prod.js",
+            "vue3-sfc-loader": "https://unpkg.com/vue3-sfc-loader@0.9.5/dist/vue3-sfc-loader.esm.js",
+            "less": "https://cdn.jsdelivr.net/npm/less@4/dist/less.min.js/+esm"        }
+        }
+      </script>
+  
+      
+      <script type="module" id="vueEngine" src="https://unpkg.com/vue3-esm-browser-vueengine"></script>
+    </body>
+    </html>
+    
+</details>
+
 ## Getting Started
 
 Folder structure (static server!)
@@ -181,7 +296,7 @@ Helps configuring the `vue-router` plugin.
 
 - **path**: the path to bind to
 - **page**: the filename of the `/pages/*` page to automatically load and initialize as component
-- **component**: if you load and initialize the component yourself instead of the page (component has precedence over the page property), manual instantiating see: https://stackoverflow.com/a/76136400/1644202
+- **component**: (optional) if you load and initialize the component yourself instead of the page (component has precedence over the page property, use either one not both), manual instantiating see: https://stackoverflow.com/a/76136400/1644202
 
 Noteworthy:
 
