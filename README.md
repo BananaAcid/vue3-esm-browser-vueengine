@@ -147,6 +147,10 @@ A more detailed [preloader is below](#loadingstates).
             content: '@import url("https://unpkg.com/vuetify@3.8.0/dist/vuetify.min.css"); ',
           },
           {
+            type: 'style',
+            content: '@import url("https://unpkg.com/@mdi/font@latest/css/materialdesignicons.min.css"); ',
+          },
+          {
             type: 'plugin',
             content: async ({ app }) =>
               app.use( (await import('https://unpkg.com/vuetify@3.8.0/dist/vuetify.esm.js')).createVuetify() ),
