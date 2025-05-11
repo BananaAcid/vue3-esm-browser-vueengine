@@ -138,8 +138,8 @@ A more detailed [preloader is below](#loadingstates).
   
         globalThis.vueConfig.routes = [
           { path: '/', page: 'home.vue' },
-            // ...
-          ];
+          // ...
+        ];
         
         globalThis.vueConfig.imports = [
           {
@@ -413,6 +413,18 @@ globalThis.loadingStates = new Proxy([], {
 });
 // set first status (before the engine pushes the others)
 globalThis.loadingStates.push( 'Preparing and loading dependencies' );
+```
+
+## Tipps
+
+If you need a simple Store that is available in each component (like in NuxtJS, and do not want to use `Pinia`), you can use:
+```js
+import { reactive } from 'vue';
+// access or init a "store"
+let selectedModel = globalThis.selectedModel || (globalThis.selectedModel = reactive({ index: '' })); // index is a made up key and behaves like the ref()'s .value
+
+// use
+selectedModel.index = 0; // and in template `{{ selectedModel.index }}`
 ```
 
 ## Caveats
