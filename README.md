@@ -14,6 +14,7 @@
 - native JS **import maps**
 - script-module
 - **LESS** and **PUG** support
+- and typescript just works out of the box (thanks to vue)
 
 Basic additions:
 
@@ -22,8 +23,6 @@ Basic additions:
 Optional Test additions:
 
 - Vuetify
-
-... and typescript just works out of the box (thanks vue? or chrome browser?)
 
 **Note:**
 
@@ -453,3 +452,4 @@ These are optional things I want to include, to have a single drop in solution.
 
 - [E] (ERROR) add a styles folder and test importing in style-less-tags (with .css and .less), and .css imports in script-tags
   - https://github.com/FranckFreiburger/vue3-sfc-loader/issues/219
+
