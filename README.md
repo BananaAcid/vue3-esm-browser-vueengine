@@ -396,7 +396,7 @@ Example:
 
 ```html
 <div id="app">
-  <progress max="11"></progress> <br /> <div id="status"></div>
+  <progress></progress> <br /> <div id="status">Preparing and loading dependencies</div>
 </div>
 ```
 
@@ -408,14 +408,18 @@ globalThis.loadingStates = new Proxy([], {
     // handle status update
     const el = document.querySelector('#status');
     if (prop !== 'length' && el) el.innerHTML += '<br>' + changes;
-    if (prop == 'length' && el)
-      document.querySelector('progress').value = changes;
-
+    if (prop == 'length' && el) {
+      const elL = document.querySelector('progress');
+      // the first info is hardcoded, to show up during page load (so we need value +1)
+      elL.value = changes +1;
+      // we set max after the first change, before that, the progress bar will "bounce" (initial caching of scripts may take a while)
+      elL.max = 11;
+    }
     return true;
   },
 });
-// set first status (before the engine pushes the others)
-globalThis.loadingStates.push( 'Preparing and loading dependencies' );
+// set a status -> max = 12
+// document.addEventListener('DOMContentLoaded', () => globalThis.loadingStates.push('Basic depemdecies cached') );
 ```
 
 ## Tipps
