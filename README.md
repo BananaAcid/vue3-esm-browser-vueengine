@@ -207,7 +207,9 @@ Now just edit your app.vue and add pages (views) and components. For each page a
 
 In the `#vueBasics` importmap, you can change the paths to local versions. The PugJS dependency path can be changed by setting `globalThis.vueConfig.mappings.pugjs='./libs/pug.js'`
 
-You can deactivate the import for LessCSS and PugJS: If you remove the import for less from the inputmap and set the pugjs=null.
+You can deactivate the import for LessCSS and PugJS: If you remove the import for less from the inputmap and set the `globalThis.vueConfig.mappings.pugjs=null`.
+
+**... iOS Safari seems to have trouble initializing with PugJS. Set it to null if you do not need it.**
 
 ### Minimal setup
 
